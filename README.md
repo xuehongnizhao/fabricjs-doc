@@ -1,2 +1,1 @@
-# fabricjs-doc
-翻译官网不知道能不能坚持下来
+## 1. [为什么选择fabric](./src/whyFabric)
