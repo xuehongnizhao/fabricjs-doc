@@ -1,1 +1,1 @@
-## 1. [为什么选择fabric](./src/whyFabric)
+## 1. [为什么选择fabric](./src/whyFabric.md)
