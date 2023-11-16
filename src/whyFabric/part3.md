@@ -493,3 +493,4 @@ fabric.labeledRect.fromObject = function(object, callback) {
 ```
 在此，我将结束本系列的第三篇，在这篇文章中，我们深入探讨了 Fabric 的一些更高级的方面。在组、类和（去）序列化的帮助下，你可以将应用程序提升到一个全新的水平。
 
+[下一节](./part4.md)
