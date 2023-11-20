@@ -1,94 +1,84 @@
-<canvas id="c" width="400" height="400" style="border: 1px solid #ccc;"></canvas>
-<!-- 引入 Fabric.js -->
+<canvas id="c" width="600" height="600" style="border: 1px solid #ccc;"></canvas>
 <script src="https://cdn.bootcdn.net/ajax/libs/fabric.js/521/fabric.js"></script>
-
 <script>
-
-const fCanvas = new fabric.Canvas('c')
-    
+    const fCanvas = new fabric.Canvas('c')
     const lineArr = []
     for (let i = 0; i < 100; i++) {
-        const line = new fabric.Line([
-            i * 10,
-            0,
-            i * 10,
-            1000,
-        ], {
-            stroke: 'black',
-            selectable: false,
-            strokeWidth: .3
-        })
+        const line = new fabric.Line([i * 10,0,i * 10,1000,], {stroke: 'black',selectable: false,strokeWidth: .3})
         lineArr.push(line)
     }
     for (let i = 0; i < 100; i++) {
-        const line = new fabric.Line([
-            0,
-            i * 10,
-            1000,
-            i * 10,
-        ], {
-            stroke: 'black',
-            selectable: false,
-            strokeWidth: .3
-        })
+    const line = new fabric.Line([0,i * 10,1000,i * 10,], {stroke: 'black',selectable: false,strokeWidth: .3})
         lineArr.push(line)
     }
     const backGroup = new fabric.Group(lineArr, { selectable: false });
     fCanvas.add(backGroup)
-    const rect = new fabric.Rect({
-        x: 100,
-        y: 100,
-        width: 200,
-        height: 200,
-        fill: 'red',
-        stroke: 'black',
-        strokeWidth: 2
+    const minion1 = new fabric.Rect({left: 200,top: 100,width: 100,height: 100,fill: 'red',stroke: 'black',strokeWidth: 2,label: 'minion'
     })
-    fCanvas.add(rect)
-    const circle = new fabric.Circle({
-        radius: 200, fill: 'green', left: 600, top: 600
+    fCanvas.add(minion1)
+    const minion2 = new fabric.Rect({left: 100,top: 400,width: 100,height: 100,fill: 'red',stroke: 'black',strokeWidth: 2,label: 'minion'
     })
-
-    fCanvas.add(circle)
-    
+    fCanvas.add(minion2)
+    const boss = new fabric.Circle({radius: 200, fill: 'green', left: 200, top: 200})
+    fCanvas.add(boss)
+    boss.on('moving', updateMinions);
+    boss.on('rotating', updateMinions);
+    boss.on('scaling', updateMinions);
+    function updateMinions() {
+        var minions = fCanvas.getObjects().filter(o => o.label == 'minion');
+        minions.forEach(o => {
+            if (!o.relationship) {
+                return;
+            }
+            var relationship = o.relationship;
+             /*
+            使用 fabric.util.multiplyTransformMatrices 函数计算新的变换矩阵 newTransform,该矩阵是bos的变换矩阵(通过 boss.calcTransformMatrix() )与关系矩阵的乘积。
+            */
+            var newTransform = fabric.util.
+                multiplyTransformMatrices(
+                boss.calcTransformMatrix(),
+                relationship
+            );
+            /*
+            使用 fabric.util.qrDecompose 函数对新的变换矩阵进行 QR 分解，将结果存储在变量 opt 中。
+            */
+            opt = fabric.util.qrDecompose(newTransform);
+            o.set({
+                flipX: false,
+                flipY: false,
+            });
+            /*
+            使用 setPositionByOrigin 方法根据 opt 中的平移值(translateX 和 translateY)和原点('center')来设置对象 o 的位置。
+            */
+            o.setPositionByOrigin(
+                { x: opt.translateX, y: opt.translateY },
+                'center',
+                'center'
+            );
+            /*
+            将对象 o 的变换矩阵设置为 opt。调用 o.setCoords() 方法更新对象 o 的坐标。
+            */
+            o.set(opt);
+            o.setCoords();
+        });
+    }
     fCanvas.on('mouse:down', function (opt) {
         var evt = opt.e;
-            this.isDragging = true;
-            this.selection = false;
-            this.lastPosX = evt.clientX;
-            this.lastPosY = evt.clientY;
-    });
-    fCanvas.on('mouse:move', function (opt) {
-        if (this.isDragging) {
-            var e = opt.e;
-            var vpt = this.viewportTransform;
-            vpt[4] += e.clientX - this.lastPosX;
-            vpt[5] += e.clientY - this.lastPosY;
-            this.requestRenderAll();
-            this.lastPosX = e.clientX;
-            this.lastPosY = e.clientY;
-            var zoom = fCanvas.getZoom();
-            var vpt = this.viewportTransform;
-            if (zoom < 400 / 1000) {
-                vpt[4] = 200 - 1000 * zoom / 2;
-                vpt[5] = 200 - 1000 * zoom / 2;
+        var minions = fCanvas.getObjects().filter(o => o.label == 'minion');
+        //计算一个boss的变换矩阵并求其逆矩阵。
+        var bossTransform = boss.calcTransformMatrix();
+        var invertedBossTransform = fabric.util.invertTransform(bossTransform);
+        minions.forEach(o => {
+            var desiredTransform = fabric.util.multiplyTransformMatrices(
+                invertedBossTransform,
+                o.calcTransformMatrix()
+            );
+            if (evt.altKey) {
+                o.relationship = desiredTransform;
             } else {
-                if (vpt[4] >= 0) {
-                    vpt[4] = 0;
-                } else if (vpt[4] < fCanvas.getWidth() - 1000 * zoom) {
-                    vpt[4] = fCanvas.getWidth() - 1000 * zoom;
-                }
-                if (vpt[5] >= 0) {
-                    vpt[5] = 0;
-                } else if (vpt[5] < fCanvas.getHeight() - 1000 * zoom) {
-                    vpt[5] = fCanvas.getHeight() - 1000 * zoom;
-                }
+                o.relationship = undefined;
             }
-        }
+        });
     });
-    fCanvas.on('mouse:up', function (opt) {
-        this.setViewportTransform(this.viewportTransform);
-        this.isDragging = false;
-        this.selection = true;
-    });
+    
 </script>
