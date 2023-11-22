@@ -1,4 +1,4 @@
-# Fabric.js简介第1部分
+#  # Fabric.js简介第1部分
 ![](whyFabric.png)
 
 今天，我想向您介绍Fabric.js，一个强大的Javascript库，使canvas的使用变得轻而易举.Fabric为canvas提供了一个缺失的`Object`模型，以及一个 SVG 解析器，交互层和一整套其他不可或缺的工具.这是一个完全开源的项目，在麻省理工学院获得许可，多年来做出了许多贡献。
@@ -92,8 +92,8 @@ canvas.renderAll();
 
 请注意一个非常重要的区别.有了Fabric，在尝试修改任何内容之前，我们不再需要擦除内容。我们仍然可以处理`Object`，只需更改其属性，然后重新渲染`Canvas`即可获得全新的画面。
 
-## `Object`
-我们已经了解了如何通过实例化fabric.Rect构造函数来处理矩形.当然，Fabric还包括所有其他基本形状，如圆形，三角形，椭圆形等。所有这些图形都在Fabric命名空间中以 fabric.Circle，fabric.Triangle，fabric.Ellipse 等形式公开。
+## [Object](../object/index.md)
+我们已经了解了如何通过实例化fabric.Rect构造函数来处理矩形.当然，Fabric还包括所有其他基本形状，如圆形，三角形，椭圆形等。所有这些图形都在Fabric命名空间中以 `fabric.Circle，fabric.Triangle，fabric.Ellipse` 等形式公开。
 
 fabric中提供 7 种基本形状：
 * [fabric.Circle](../object/Circle/index.md)

@@ -1,4 +1,4 @@
-# Fabric.js简介第2部分
+# Fabric.js简介第3部分
 在本系列的第一和第二部分中，我们已经介绍了大部分基础知识。下面，让我们进入更高级的内容！
 
 ## 组（Groups）
@@ -493,4 +493,4 @@ fabric.labeledRect.fromObject = function(object, callback) {
 ```
 在此，我将结束本系列的第三篇，在这篇文章中，我们深入探讨了 Fabric 的一些更高级的方面。在组、类和（去）序列化的帮助下，你可以将应用程序提升到一个全新的水平。
 
-[下一节](./part4.md)
+[上一节](./part2.md) [下一节](./part4.md)

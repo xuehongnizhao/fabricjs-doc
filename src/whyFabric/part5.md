@@ -259,4 +259,4 @@ const fCanvas = new fabric.Canvas('c')
     });
 </script>
 ```
-[下一节](./part6.md)
+[上一节](./part4.md) [下一节](./part5.md)

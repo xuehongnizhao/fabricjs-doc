@@ -431,4 +431,4 @@ circle.on('selected', function() {
 ```
 我们将事件监听器直接附加到矩形和圆形实例上。我们使用的是 `selected`事件，而不是`object:selected`事件。同样，我们也可以使用`modified`事件（附加到canvas时使用`object:modified`）、`rotating`事件（附加到canvas时使用`object:rotating`）等。
 
-[下一节](./part2.md)
+[上一节](./part1.md) [下一节](./part3.md)

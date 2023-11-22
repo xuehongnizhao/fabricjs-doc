@@ -1,0 +1,18 @@
+<canvas id="c" width="600" height="600" style="border: 1px solid #ccc;"></canvas>
+<script src="https://cdn.bootcdn.net/ajax/libs/fabric.js/521/fabric.js"></script>
+<script>
+    const fCanvas = new fabric.Canvas('c')
+    const minion1 = new fabric.Rect({left: 100,top: 10,width: 100,height: 100,fill: 'red',stroke: 'black',strokeWidth: 2,label: 'minion',originX:'left',
+    })
+    fCanvas.add(minion1)
+    const minion2 = new fabric.Rect({left: 100,top: 400,width: 100,height: 100,fill: 'red',stroke: 'black',strokeWidth: 2,label: 'minion',originX:'right',
+    })
+    
+    fCanvas.add(minion2)
+    minion1.on('mousedown', ()=>{
+        minion2.scaleToWidth(20)
+        // fCanvas.renderAll()
+        minion2.viewportCenter()
+        object.setCoords();
+    })
+</script>

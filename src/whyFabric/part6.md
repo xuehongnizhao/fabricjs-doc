@@ -158,4 +158,4 @@ var pointInObjectPixels = fabric.util.transformPoint(pointClicked, mInverse);
     
 </script>
 ```
-//这节没看懂 
+[上一节](./part5.md) 
